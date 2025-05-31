@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postman Test Report - Dandys-Update</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #fff;
+        }
+        .header {
+            background-color: #EF5B25;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .summary-item {
+            text-align: center;
+            flex: 1;
+        }
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .passed {
+            color: #27ae60;
+        }
+        .failed {
+            color: #e74c3c;
+        }
+        .error {
+            color: #e74c3c;
+        }
+        .success {
+            color: #27ae60;
+        }
+        .test-item {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+        .test-item.failed {
+            border-left-color: #e74c3c;
+        }
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .test-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .test-method {
+            background-color: #3498db;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .test-url {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        .test-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .status-passed {
+            background-color: #27ae60;
+            color: white;
+        }
+        .status-failed {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .test-time {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .test-details {
+            margin-top: 10px;
+        }
+        .test-assertion {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .test-assertion:last-child {
+            border-bottom: none;
+        }
+        .assertion-name {
+            flex: 1;
+        }
+        .assertion-status {
+            width: 80px;
+            text-align: right;
+        }
+        .passed-badge {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .failed-badge {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .filter-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .filter-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .filter-button.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        .response-code {
+            font-weight: bold;
+        }
+        .response-code-2xx {
+            color: #27ae60;
+        }
+        .response-code-4xx {
+            color: #e67e22;
+        }
+        .response-code-5xx {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Postman Test Report</h1>
+        <h2>Dandys-APIs Updated Report</h2>
+        <p>Run at: <span id="timestamp">2025-05-31T04:44:44.243Z</span></p>
+    </div>
+
+    <div class="summary">
+        <div class="summary-item">
+            <div class="summary-value"><span class="passed" id="totalPass">315</span></div>
+            <div>Tests Passed</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value"><span class="failed" id="totalFail">13</span></div>
+            <div>Tests Failed</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value"><span id="totalTests">328</span></div>
+            <div>Total Tests</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value"><span id="successRate">96.04%</span></div>
+            <div>Success Rate</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value"><span id="totalTime">26.17</span>s</div>
+            <div>Total Time</div>
+        </div>
+    </div>
+
+    <div class="filter-buttons">
+        <button class="filter-button active" onclick="filterTests('all')">All Tests</button>
+        <button class="filter-button" onclick="filterTests('passed')">Passed Only</button>
+        <button class="filter-button" onclick="filterTests('failed')">Failed Only</button>
+    </div>
+
+    <div id="test-results">
+        <!-- Test items will be inserted here by JavaScript -->
+    </div>
+
+    <script>
+        // Test data from the JSON
+        const testData = {
+            "id": "936f7abc-4a9e-4f31-9fe9-870b19faffa8",
+            "name": "Dandys-Update",
+            "timestamp": "2025-05-31T04:44:44.243Z",
+            "totalPass": 315,
+            "totalFail": 13,
+            "results": [
+                {
+                    "id": "1e57b728-8160-4d5a-bafb-4d3c71074b6f",
+                    "name": "Admin Login",
+                    "url": "https://dev.dandysapp.com/v1/auth/admin/login",
+                    "time": 272,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the response schema for the required fields": true,
+                        "Token is a non-empty string": true,
+                        "Email is in a valid email format": true
+                    }
+                },
+                {
+                    "id": "14bfaf28-3e8f-4827-80ed-44e441945faa",
+                    "name": "Get fraud reports",
+                    "url": "https://dev.dandysapp.com/v1/admin/fraud-reports",
+                    "time": 270,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response body has required properties": true,
+                        "Fraud reports data has required properties": true,
+                        "Pagination data has required properties": true,
+                        "Store fraud report id for any of user in the array with status 'pending'": true
+                    }
+                },
+                {
+                    "id": "d5fbccbd-c3d0-49cd-9413-61079a360173",
+                    "name": "Update Fraud Report",
+                    "url": "https://dev.dandysapp.com/v1/admin/fraud-reports/683a848da4fd1ae53e43234a",
+                    "time": 243,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Message is correct": true,
+                        "Fraud report data is valid": true
+                    }
+                },
+                {
+                    "id": "2e01ba9f-288a-4842-be1f-9d0ca2ee64b6",
+                    "name": "Get Fraud Report by Id",
+                    "url": "https://dev.dandysapp.com/v1/admin/fraud-reports/683a848da4fd1ae53e43234a",
+                    "time": 219,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Check if 'data' property exists": true,
+                        "Check if 'data' is an object": true,
+                        "Check if 'data' has required properties": true,
+                        "Check 'user' property is not empty": true
+                    }
+                },
+                {
+                    "id": "8a838a95-9f12-429d-b06a-f2b0f965612b",
+                    "name": "Add discount",
+                    "url": "https://dev.dandysapp.com/v1/admin/discounts",
+                    "time": 201,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status is 200": true,
+                        "Message is 'Discount created successfully'": true,
+                        "Discount object exists": true,
+                        "Discount email is valid": true,
+                        "Discount value is not empty": true,
+                        "Discount is reusable": true,
+                        "Max usage per user is 1": true,
+                        "Discount is active": true,
+                        "Valid from date is correct": true,
+                        "Valid to date is correct": true,
+                        "Store discount id": true
+                    }
+                },
+                {
+                    "id": "46e73a19-581c-471e-ae61-df29540dda5b",
+                    "name": "Update discount",
+                    "url": "https://dev.dandysapp.com/v1/admin/discounts/683a891fa4fd1ae53e43473b",
+                    "time": 267,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 300ms": true,
+                        "Content type is application/json": true,
+                        "Discount updated successfully message is received": true,
+                        "Discount data is not empty": true
+                    }
+                },
+                {
+                    "id": "daf2a7ad-358e-4183-bf13-c4aada825bef",
+                    "name": "Get Discount",
+                    "url": "https://dev.dandysapp.com/v1/admin/discounts/683a891fa4fd1ae53e43473b",
+                    "time": 216,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 300ms": true,
+                        "Response has statusCode, message, and data": true,
+                        "Data contains the expected discount properties": true,
+                        "Discount value type is 'fixed' and reusable is true": true
+                    }
+                },
+                {
+                    "id": "c9f6f2a9-ce69-4dff-af23-b44bb9306075",
+                    "name": "Get discounts",
+                    "url": "https://dev.dandysapp.com/v1/admin/discounts?page=1&perPage=5",
+                    "time": 233,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response message is as expected": true,
+                        "Response body has the expected structure": true
+                    }
+                },
+                {
+                    "id": "bc4a4f63-43fd-4c95-96e9-21360a0289cc",
+                    "name": "Get user discounts",
+                    "url": "https://dev.dandysapp.com/v1/admin/user-discounts?page=1&perPage=10",
+                    "time": 218,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 500ms": true,
+                        "Response has the expected schema and properties": true,
+                        "Content-Type header is present and has value 'application/json'": true
+                    }
+                },
+                {
+                    "id": "b30f99c9-9c11-4086-8214-0ce69d5e0219",
+                    "name": "Get Bookings",
+                    "url": "https://dev.dandysapp.com/v1/admin/bookings?status=cancelled&page=1&size=5",
+                    "time": 580,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Ensure the response has the required fields": true,
+                        "Validate the structure of the metrics object within the data object": true,
+                        "Validate the structure of the 'bookings' array and its nested objects": true
+                    }
+                },
+                {
+                    "id": "1948e298-0227-4894-9c5b-3e741e92aa4f",
+                    "name": "Get All Users",
+                    "url": "https://dev.dandysapp.com/v1/admin/users?page=3&size=10",
+                    "time": 453,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Content type is application/json": true,
+                        "Users array in the response should have the correct schema": true,
+                        "Validate the structure and data types of the location object": true
+                    }
+                },
+                {
+                    "id": "58922c29-bac1-470c-82cc-60eb9e74e4cc",
+                    "name": "Get All Professionals",
+                    "url": "https://dev.dandysapp.com/v1/admin/professionals?page=2&size=5",
+                    "time": 256,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the structure of the data object in the response": true,
+                        "Professionals array is present and not empty": true
+                    }
+                },
+                {
+                    "id": "36a581aa-e198-4bf0-af4d-9d0f6e842f2b",
+                    "name": "Get all Transactions",
+                    "url": "https://dev.dandysapp.com/v1/admin/transactions?type=booking&status=pending&page=1&size=10",
+                    "time": 236,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the structure of the response data": true,
+                        "Transactions array is present and contains the expected number of elements": true
+                    }
+                },
+                {
+                    "id": "8db7f8fe-241f-4dba-8606-05d6e2556543",
+                    "name": "Send Broadcast Message",
+                    "url": "https://dev.dandysapp.com/v1/admin/broadcast",
+                    "time": 845,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response Content-Type header is application/json": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the response schema for statusCode and message properties": true
+                    }
+                },
+                {
+                    "id": "e65a8076-8e2f-4753-9793-ae94e23ae90a",
+                    "name": "Suspend User",
+                    "url": "https://dev.dandysapp.com/v1/admin/users/suspend",
+                    "time": 250,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode and message": true,
+                        "StatusCode is a non-negative integer": true,
+                        "Message is a non-empty string": true
+                    }
+                },
+                {
+                    "id": "6c3f3f84-51a9-4106-9595-499b6b7b2a53",
+                    "name": "Get Dashboard Metrics",
+                    "url": "https://dev.dandysapp.com/v1/admin/dashboard?trendingServices=monthly&income=weekly",
+                    "time": 314,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the structure of the response data object": true,
+                        "Presence of required fields in the response data object": true,
+                        "Validate the structure of the trendingServices array": true
+                    }
+                },
+                {
+                    "id": "678a2ee5-c044-4fdb-aa58-31b9ab5352ff",
+                    "name": "Create App Versions",
+                    "url": "https://dev.dandysapp.com/v1/admin/app-version",
+                    "time": 215,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response Content-Type is application/json": true,
+                        "Validate the structure of the data object": true,
+                        "Validate the 'andriod' and 'ios' objects within the 'data' object": true,
+                        "Check if 'version' and 'mandatory' fields are present and have valid values in the 'andriod' and 'ios' objects": true
+                    }
+                },
+                {
+                    "id": "2d4c0b5a-5c18-41db-a44b-e1a3d524e62f",
+                    "name": "Get Subscribed Professionals",
+                    "url": "https://dev.dandysapp.com/v1/admin/professional/subscriptions?interval=daily",
+                    "time": 223,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Content-Type header is application/json": true,
+                        "Response time is less than 1000ms": true,
+                        "Response data schema is valid": true,
+                        "Response data contains the required fields": true
+                    }
+                },
+                {
+                    "id": "996bcb15-8328-42e1-860c-beb057dd97cb",
+                    "name": "Get User Metrics(New Users)",
+                    "url": "https://dev.dandysapp.com/v1/admin/user/metrics?interval=yearly&size=10&page=2",
+                    "time": 195,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response has the required fields": true,
+                        "Validate the data object structure": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the users array properties": true
+                    }
+                },
+                {
+                    "id": "253982ad-24c0-47a1-bd72-4e3beabd635b",
+                    "name": "Get All Admins",
+                    "url": "https://dev.dandysapp.com/v1/admin/all",
+                    "time": 197,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required schema fields": true,
+                        "Data field contains the expected subfields": true,
+                        "Each admin object contains the required fields": true
+                    }
+                },
+                {
+                    "id": "e2243a2e-2637-4527-a506-f28379369a5e",
+                    "name": "Update Admin Professional",
+                    "url": "https://dev.dandysapp.com/v1/admin/update/671f881cfc3b40503116c3b3/professional",
+                    "time": 253,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time should not be below 1000": true,
+                        "Response Message should not be empty": true,
+                        "Response Data should not be empty": true
+                    }
+                },
+                {
+                    "id": "6a46d2c5-fd14-45b1-9133-4a85c3b0a8d1",
+                    "name": "Signup User",
+                    "url": "https://dev.dandysapp.com/v1/auth/signup/user",
+                    "time": 477,
+                    "responseCode": {
+                        "code": 400,
+                        "name": "Bad Request"
+                    },
+                    "tests": {
+                        "Response status code is 201": false,
+                        "Response time is within an acceptable range": true,
+                        "Response has the required fields": false,
+                        "Data object contains _id and token properties": false
+                    }
+                },
+                {
+                    "id": "cd4194f5-2700-437c-8ecd-400ded5d3685",
+                    "name": "Login",
+                    "url": "https://dev.dandysapp.com/v1/auth/login",
+                    "time": 342,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response has the required fields": true,
+                        "Email is in a valid email format": true,
+                        "Response time is less than 1000ms": true,
+                        "Role and chatToken fields are present in the response": true
+                    }
+                },
+                {
+                    "id": "33365b60-ad24-4ff3-87df-2a3a3174feb3",
+                    "name": "Create Review",
+                    "url": "https://dev.dandysapp.com/v1/users/review",
+                    "time": 243,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode and message": true,
+                        "StatusCode is a non-negative integer": true,
+                        "Message is a non-empty string": true
+                    }
+                },
+                {
+                    "id": "2576c62b-69cd-4325-a116-3c576ef75724",
+                    "name": "Share Professional Profile",
+                    "url": "https://dev.dandysapp.com/v1/users/share/professional/6735b96aa3d28f381f19baff",
+                    "time": 234,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Check status code is 200": true,
+                        "Check message is 'profile shared'": true,
+                        "Check if data is present": true,
+                        "Check user details in data": true,
+                        "Check business location is valid": true,
+                        "Check link format": true,
+                        "Check token is present": true
+                    }
+                },
+                {
+                    "id": "078e9f13-56a9-4e59-8954-73839919414b",
+                    "name": "Record Valid Share",
+                    "url": "https://dev.dandysapp.com/v1/users/share/professional/record/d0ce0082071724ec7e15752f8328a623",
+                    "time": 204,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response has statusCode": true,
+                        "Response has message": true,
+                        "Response has data": true,
+                        "Data has _id": true,
+                        "Data has professionalId": true,
+                        "Data has link": true,
+                        "Data has token": true,
+                        "Data has sharerId": true,
+                        "Data has recorded": true
+                    }
+                },
+                {
+                    "id": "ad271f03-7981-4993-af1b-5369612cea18",
+                    "name": "Get User Profile",
+                    "url": "https://dev.dandysapp.com/v1/users/683a8925a4fd1ae53e434777",
+                    "time": 239,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Content-Type header is application/json": true,
+                        "Response time is within an acceptable range": true,
+                        "Validate the data object schema": true
+                    }
+                },
+                {
+                    "id": "c6618891-92d2-4357-9a91-6e97a2592987",
+                    "name": "Update Profile",
+                    "url": "https://dev.dandysapp.com/v1/users/update/profile/683a8925a4fd1ae53e434777",
+                    "time": 220,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the data schema for currentDeviceInfo, notificationSettings, location, verifications, and other fields": true,
+                        "Coordinates object contains valid longitude and latitude values": true,
+                        "Notification settings contains boolean values for chat, booking, email, and payment": true
+                    }
+                },
+                {
+                    "id": "e46bfe14-cef8-49a4-b3e3-c69f5564a03f",
+                    "name": "Update Password",
+                    "url": "https://dev.dandysapp.com/v1/users/update/password",
+                    "time": 388,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message to contain 'Updated'": true
+                    }
+                },
+                {
+                    "id": "8df2af58-7e35-4cb7-a62f-5c48a4e97d1b",
+                    "name": "Password Reset",
+                    "url": "https://dev.dandysapp.com/v1/auth/password-reset",
+                    "time": 258,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response has the required fields - statusCode, message, and data": true,
+                        "Response time is less than 1000ms": true,
+                        "Content-Type header is application/json": true,
+                        "StatusCode is a non-negative integer": true
+                    }
+                },
+                {
+                    "id": "03bdc438-dcb5-41c9-8a9c-8d09c513fa48",
+                    "name": "Upload Profile picture",
+                    "url": "https://dev.dandysapp.com/v1/users/update/avatar/683a8925a4fd1ae53e434777",
+                    "time": 1150,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": false,
+                        "Content-Type header is application/json": true,
+                        "Response has the required fields": true
+                    }
+                },
+                {
+                    "id": "1c89b62b-40a1-45bd-86c1-8f0b190a973b",
+                    "name": "Signup Professionals",
+                    "url": "https://dev.dandysapp.com/v1/auth/signup/professional",
+                    "time": 232,
+                    "responseCode": {
+                        "code": 409,
+                        "name": "Conflict"
+                    },
+                    "tests": {
+                        "Response status code is 201": false,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode, message, and data": false,
+                        "Data object contains _id and token properties": false,
+                        "Token is a non-empty string": false
+                    }
+                },
+                {
+                    "id": "b35d714d-5ed0-4d4c-ade5-850718bf0927",
+                    "name": "Login",
+                    "url": "https://dev.dandysapp.com/v1/auth/login/",
+                    "time": 262,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response has the required fields": true,
+                        "Email is in a valid email format": true,
+                        "Response time is less than 1000ms": true,
+                        "Role and chatToken fields are present in the response": true
+                    }
+                },
+                {
+                    "id": "6485dfc9-3eed-4f13-bc43-006ac647d532",
+                    "name": "Password Reset",
+                    "url": "https://dev.dandysapp.com/v1/auth/password-reset",
+                    "time": 339,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response has the required fields - statusCode, message, and data": true,
+                        "Response time is less than 1000ms": true,
+                        "Content-Type header is application/json": true,
+                        "StatusCode is a non-negative integer": true
+                    }
+                },
+                {
+                    "id": "a76b7c17-1527-4db7-b58c-d7056dafccaf",
+                    "name": "Update Profile",
+                    "url": "https://dev.dandysapp.com/v1/professionals/update/profile/683a8198a4fd1ae53e42fec2",
+                    "time": 239,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Verify the response body properties": true
+                    }
+                },
+                {
+                    "id": "153a4ab9-b98f-4679-bad7-e0420eaf13d1",
+                    "name": "Get Professional Profile",
+                    "url": "https://dev.dandysapp.com/v1/professionals/683a8198a4fd1ae53e42fec2",
+                    "time": 231,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the schema for the 'data' object": true,
+                        "Business Location contains longitude and latitude fields": true
+                    }
+                },
+                {
+                    "id": "759a7745-c702-44e9-814d-78f89f8fcd09",
+                    "name": "Upload Service Images",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/upload/gallery",
+                    "time": 242,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode, message, and data": true
+                    }
+                },
+                {
+                    "id": "a1c78433-f566-4114-852f-1729efad601d",
+                    "name": "Upgrade Subscription",
+                    "url": "https://dev.dandysapp.com/v1/professionals/subscription/upgrade",
+                    "time": 527,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is within an acceptable range": true,
+                        "Response has the required fields": true,
+                        "Data object contains the required fields": true,
+                        "StatusCode is a non-negative integer": true
+                    }
+                },
+                {
+                    "id": "e03328b8-9c26-4fd0-9ed5-d760c8cd70e1",
+                    "name": "Get Reviews",
+                    "url": "https://dev.dandysapp.com/v1/professionals/review/me/683a8198a4fd1ae53e42fec2",
+                    "time": 266,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response Content-Type is application/json": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the structure of the response data object": true,
+                        "Metrics object contains ratings and totalReviews properties": true
+                    }
+                },
+                {
+                    "id": "81144ad4-a0fd-4b4d-b47e-87a55b74bc52",
+                    "name": "Upload Professional Work Gallery",
+                    "url": "https://dev.dandysapp.com/v1/professionals/upload/work-image",
+                    "time": 256,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Response status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode, message, and data": true,
+                        "Data object contains the expected fields - path and url": true,
+                        "Path and url are in a valid format": true
+                    }
+                },
+                {
+                    "id": "ae4d8bfe-5fd0-4297-83da-e86f69ef5d92",
+                    "name": "Delete Work Image",
+                    "url": "https://dev.dandysapp.com/v1/professionals/work-image",
+                    "time": 234,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message is 'image deleted'": true,
+                        "Data is null": true
+                    }
+                },
+                {
+                    "id": "80a407f7-54af-499a-b90a-f47310b4580b",
+                    "name": "Request Withdrawal",
+                    "url": "https://dev.dandysapp.com/v1/professionals/withdraw",
+                    "time": 365,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Verify the presence of statusCode in the response": true,
+                        "Verify the presence of message in the response": true,
+                        "Verify the presence of data in the response": true
+                    }
+                },
+                {
+                    "id": "ea027836-3cf2-464c-9de3-4f69091e7f9b",
+                    "name": "Create Category [Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/",
+                    "time": 956,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has all the required properties": true,
+                        "SubCategories array contains specific elements": true
+                    }
+                },
+                {
+                    "id": "0e8cec15-e981-49e6-9d13-e97a9788271e",
+                    "name": "Get Category Profile",
+                    "url": "https://dev.dandysapp.com/v1/categories/683a892ea4fd1ae53e434910",
+                    "time": 344,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 300ms": false,
+                        "Response body has all the expected properties": true,
+                        "Subcategories have expected properties": true
+                    }
+                },
+                {
+                    "id": "d30b6e7b-3f65-4d62-b5fe-db2a4b6c771c",
+                    "name": "Update Category [Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/update/683a892ea4fd1ae53e434910",
+                    "time": 215,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 500ms": true,
+                        "Response has statusCode, message, and data": true,
+                        "Response message is 'category updated'": true,
+                        "Response data is true": true
+                    }
+                },
+                {
+                    "id": "c025815b-2b24-4e87-9b65-ff9d8653dc03",
+                    "name": "Get All Categories",
+                    "url": "https://dev.dandysapp.com/v1/categories",
+                    "time": 207,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response message is as expected": true,
+                        "Data array structure": true
+                    }
+                },
+                {
+                    "id": "66003c4e-7be7-4193-83a5-3c9d5bb66b33",
+                    "name": "Delete Category [Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/683a892ea4fd1ae53e434910",
+                    "time": 285,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 100ms": true,
+                        "Response has the expected properties": true
+                    }
+                },
+                {
+                    "id": "a9c113fd-16b0-496b-a13b-fcf6f61a1cdb",
+                    "name": "Create SubCategory[Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/subcategory",
+                    "time": 920,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response body has all the required properties": true
+                    }
+                },
+                {
+                    "id": "7e1fced5-c683-4701-82e7-052aac3d04c9",
+                    "name": "Update SubCategory[Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/subcategory/update/profile/683a8930a4fd1ae53e43491e",
+                    "time": 272,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message is 'sub-category updated'": true
+                    }
+                },
+                {
+                    "id": "9027a979-15e4-4233-b709-7a0c42ef0415",
+                    "name": "Update SubCategory Image[Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/subcategory/update/image/683a8930a4fd1ae53e43491e",
+                    "time": 930,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": false,
+                        "Response message is 'image updated'": false,
+                        "Response data is not empty": true
+                    }
+                },
+                {
+                    "id": "e966f6c8-1273-4bf9-bf6e-866432eb57d4",
+                    "name": "Get All SubCategories",
+                    "url": "https://dev.dandysapp.com/v1/categories/subcategory",
+                    "time": 477,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message is correct": true,
+                        "Data items are fetched and not empty": true,
+                        "Data items are in an array": true
+                    }
+                },
+                {
+                    "id": "7868b6fd-38d7-4713-9a4c-1108ab7cf7af",
+                    "name": "Get SubCategory Profile",
+                    "url": "https://dev.dandysapp.com/v1/categories/subcategory/683a8930a4fd1ae53e43491e",
+                    "time": 241,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message is correct": true,
+                        "Response data is an object and not empty": true
+                    }
+                },
+                {
+                    "id": "1dea12b0-3c71-4362-9508-1d083fe02a67",
+                    "name": "Delete SubCatgeory[Admin]",
+                    "url": "https://dev.dandysapp.com/v1/categories/subcategory/683a8930a4fd1ae53e43491e",
+                    "time": 244,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message is 'sub-category deleted'": true,
+                        "Response data is true": true
+                    }
+                },
+                {
+                    "id": "00f15982-d765-4be8-bd0c-e0a0f89da4d1",
+                    "name": "Create Service",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/create",
+                    "time": 216,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the required fields in the response": true
+                    }
+                },
+                {
+                    "id": "b84701ac-76e9-472b-8326-8ae65fac5d3c",
+                    "name": "Update Service",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/update/683a8198a4fd1ae53e42fec2",
+                    "time": 199,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message to have 'updated'": true
+                    }
+                },
+                {
+                    "id": "51a2d83e-92f6-483b-b6ba-d9416d106860",
+                    "name": "Get Services",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/filter",
+                    "time": 921,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response contains data field": true,
+                        "Each service has required fields": true
+                    }
+                },
+                {
+                    "id": "63c8a294-0a2e-443a-b01e-727017dca207",
+                    "name": "Update Services Listing ",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/update/listing/683a8198a4fd1ae53e42fec2",
+                    "time": 270,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode, message, and data": true,
+                        "StatusCode is a non-negative integer": true,
+                        "Message is a non-empty string": true
+                    }
+                },
+                {
+                    "id": "c50add01-6d28-49f3-878f-6fd371728881",
+                    "name": "Get Professional Services",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/me/683a8198a4fd1ae53e42fec2",
+                    "time": 223,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Verify the response message for professional services": true,
+                        "Verify the availability status for all professional services": true,
+                        "Verify the category name for each professional service": true
+                    }
+                },
+                {
+                    "id": "d078480c-f79f-4e7d-937e-b8372f3ea24c",
+                    "name": "Delete Service",
+                    "url": "https://dev.dandysapp.com/v1/professionals/service/683a8933a4fd1ae53e43492e",
+                    "time": 234,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Message indicates service removal": true,
+                        "Data is true": true
+                    }
+                },
+                {
+                    "id": "bafd1eaa-d9dd-4a38-9ee8-2e16bbc12a1b",
+                    "name": "Get Bank Codes",
+                    "url": "https://dev.dandysapp.com/v1/app/bank",
+                    "time": 256,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the data schema properties": true
+                    }
+                },
+                {
+                    "id": "2b447c5f-888c-46a7-b275-5095491da7c2",
+                    "name": "Get Subscription Info",
+                    "url": "https://dev.dandysapp.com/v1/app/subscriptions",
+                    "time": 233,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is within an acceptable range": true,
+                        "Response has the required fields - statusCode, message, data": true,
+                        "Data object contains packages and channels arrays": true,
+                        "Validate the packages array contains objects with id, amount, slug, minServices, and maxServices properties": true
+                    }
+                },
+                {
+                    "id": "2263364c-a188-48d3-822d-a9833ea2ce52",
+                    "name": "Get Messaging Channels",
+                    "url": "https://dev.dandysapp.com/v1/app/channel/messaging",
+                    "time": 221,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Validate the response schema for the presence of id, name, and slug fields": true
+                    }
+                },
+                {
+                    "id": "c2dfd0b9-9e7b-4b8f-a82b-e821a5dd197c",
+                    "name": "Get App Links",
+                    "url": "https://dev.dandysapp.com/v1/app/links",
+                    "time": 234,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response has the required fields - statusCode, message, and data": true,
+                        "Data includes fields for ios and android": true,
+                        "Content-Type header is application/json": true
+                    }
+                },
+                {
+                    "id": "ed1e4dbb-e6ea-4343-bcad-46c2ac729c25",
+                    "name": "Get App Versions",
+                    "url": "https://dev.dandysapp.com/v1/app/versions",
+                    "time": 250,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Response status code is 200": true,
+                        "Response time is in an acceptable range": true,
+                        "Validate the data schema for android and ios versions and mandatory fields": true
+                    }
+                },
+                {
+                    "id": "da5088df-6d0c-4cb6-8aa9-3816848d7e64",
+                    "name": "Create Booking",
+                    "url": "https://dev.dandysapp.com/v1/bookings",
+                    "time": 566,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 1000ms": true,
+                        "Response body has all the required properties": true,
+                        "Content type is application/json": true
+                    }
+                },
+                {
+                    "id": "d5933358-5fe6-4ce4-8b57-2db150c1679e",
+                    "name": "Accept Booking[Professionals]",
+                    "url": "https://dev.dandysapp.com/v1/bookings/approve",
+                    "time": 774,
+                    "responseCode": {
+                        "code": 400,
+                        "name": "Bad Request"
+                    },
+                    "tests": {
+                        "Status code is 200": false,
+                        "Response time is less than 1000ms": true,
+                        "Response contains statusCode": true,
+                        "Response contains message": true
+                    }
+                },
+                {
+                    "id": "a270145b-7943-4a48-95e8-a2f8e6d3564a",
+                    "name": "Generate Payment Link",
+                    "url": "https://dev.dandysapp.com/v1/bookings/payment/generate",
+                    "time": 517,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "ea1552d7-df1a-4f1c-b8c1-679ae20c2f3a",
+                    "name": "Get Bookings",
+                    "url": "https://dev.dandysapp.com/v1/bookings/683a8937a4fd1ae53e434c0e",
+                    "time": 271,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "92678679-e7e3-4895-a30c-330a07adfee4",
+                    "name": "Get All Bookings[PROFESSIONAL]",
+                    "url": "https://dev.dandysapp.com/v1/bookings/683a8198a4fd1ae53e42fec2/professional",
+                    "time": 215,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "c1036156-b32c-479a-9ad8-c97d5048054b",
+                    "name": "Get Bookings[USER}",
+                    "url": "https://dev.dandysapp.com/v1/bookings/683a8925a4fd1ae53e434777/user",
+                    "time": 237,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "5b9fb46a-634f-417e-a9d7-5561c59e4935",
+                    "name": "Send Chat Notfication",
+                    "url": "https://dev.dandysapp.com/v1/bookings/chat/notification",
+                    "time": 319,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 500ms": true,
+                        "Response contains expected properties": true
+                    }
+                },
+                {
+                    "id": "0db4cead-6df2-4bd6-a6d4-c8accb1717cd",
+                    "name": "Start Booking Service[Professionals]",
+                    "url": "https://dev.dandysapp.com/v1/bookings/start",
+                    "time": 322,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "9243e70f-eb4d-405b-aead-107329626d8e",
+                    "name": "Complete booking service[Professional]",
+                    "url": "https://dev.dandysapp.com/v1/bookings/end",
+                    "time": 294,
+                    "responseCode": {
+                        "code": 201,
+                        "name": "Created"
+                    },
+                    "tests": {
+                        "Status code is 201": true,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "dccd06a2-f402-4e22-9502-9f7f9b268b83",
+                    "name": "Cancel Bookings",
+                    "url": "https://dev.dandysapp.com/v1/bookings/cancel",
+                    "time": 218,
+                    "responseCode": {
+                        "code": 400,
+                        "name": "Bad Request"
+                    },
+                    "tests": {
+                        "Status code is 200": false,
+                        "Response time is less than 1000ms": true
+                    }
+                },
+                {
+                    "id": "da903a39-b90a-4752-9194-c721af741c75",
+                    "name": "Get All Transactions[User]",
+                    "url": "https://dev.dandysapp.com/v1/transactions/user/67b6de8be90ce1a3e3fd2022",
+                    "time": 208,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response contains the message": true,
+                        "Data array structure": true
+                    }
+                },
+                {
+                    "id": "8b8a777c-2353-4884-adfb-e29423a23a09",
+                    "name": "Get All Transactions[Professional]",
+                    "url": "https://dev.dandysapp.com/v1/transactions/professional/673b04fd19edf656a3e91cea",
+                    "time": 387,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response message is 'transactions fetched'": true,
+                        "Data array is not empty": true,
+                        "Transaction has required fields": true
+                    }
+                },
+                {
+                    "id": "78c68a40-825f-4240-8700-9e02783d7337",
+                    "name": "Get Transaction",
+                    "url": "https://dev.dandysapp.com/v1/transactions/682826112fa9b3d248ef01df",
+                    "time": 195,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response message is 'transaction fetched'": true,
+                        "Verify the structure and data types in the response body": true
+                    }
+                },
+                {
+                    "id": "485d55b2-ba86-4eb4-a127-2080d0d2abc7",
+                    "name": "Delete User Profile",
+                    "url": "https://dev.dandysapp.com/v1/users/683a8925a4fd1ae53e434777",
+                    "time": 196,
+                    "responseCode": {
+                        "code": 200,
+                        "name": "OK"
+                    },
+                    "tests": {
+                        "Status code is 200": true,
+                        "Response time is less than 1000ms": true,
+                        "Response body has statusCode, message, and data": true,
+                        "Response message is 'profile deleted'": true,
+                        "Content type is application/json": true
+                    }
+                }
+            ],
+            "collection": {
+                "requests": [
+                    {
+                        "id": "1e57b728-8160-4d5a-bafb-4d3c71074b6f",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "14bfaf28-3e8f-4827-80ed-44e441945faa",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "d5fbccbd-c3d0-49cd-9413-61079a360173",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "2e01ba9f-288a-4842-be1f-9d0ca2ee64b6",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "8a838a95-9f12-429d-b06a-f2b0f965612b",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "46e73a19-581c-471e-ae61-df29540dda5b",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "daf2a7ad-358e-4183-bf13-c4aada825bef",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "c9f6f2a9-ce69-4dff-af23-b44bb9306075",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "bc4a4f63-43fd-4c95-96e9-21360a0289cc",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "b30f99c9-9c11-4086-8214-0ce69d5e0219",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "1948e298-0227-4894-9c5b-3e741e92aa4f",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "58922c29-bac1-470c-82cc-60eb9e74e4cc",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "36a581aa-e198-4bf0-af4d-9d0f6e842f2b",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "8db7f8fe-241f-4dba-8606-05d6e2556543",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "e65a8076-8e2f-4753-9793-ae94e23ae90a",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "6c3f3f84-51a9-4106-9595-499b6b7b2a53",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "678a2ee5-c044-4fdb-aa58-31b9ab5352ff",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "2d4c0b5a-5c18-41db-a44b-e1a3d524e62f",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "996bcb15-8328-42e1-860c-beb057dd97cb",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "253982ad-24c0-47a1-bd72-4e3beabd635b",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "e2243a2e-2637-4527-a506-f28379369a5e",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "6a46d2c5-fd14-45b1-9133-4a85c3b0a8d1",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "cd4194f5-2700-437c-8ecd-400ded5d3685",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "33365b60-ad24-4ff3-87df-2a3a3174feb3",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "2576c62b-69cd-4325-a116-3c576ef75724",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "078e9f13-56a9-4e59-8954-73839919414b",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "ad271f03-7981-4993-af1b-5369612cea18",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "c6618891-92d2-4357-9a91-6e97a2592987",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "e46bfe14-cef8-49a4-b3e3-c69f5564a03f",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "8df2af58-7e35-4cb7-a62f-5c48a4e97d1b",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "03bdc438-dcb5-41c9-8a9c-8d09c513fa48",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "1c89b62b-40a1-45bd-86c1-8f0b190a973b",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "b35d714d-5ed0-4d4c-ade5-850718bf0927",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "6485dfc9-3eed-4f13-bc43-006ac647d532",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "a76b7c17-1527-4db7-b58c-d7056dafccaf",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "153a4ab9-b98f-4679-bad7-e0420eaf13d1",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "759a7745-c702-44e9-814d-78f89f8fcd09",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "a1c78433-f566-4114-852f-1729efad601d",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "e03328b8-9c26-4fd0-9ed5-d760c8cd70e1",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "81144ad4-a0fd-4b4d-b47e-87a55b74bc52",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "ae4d8bfe-5fd0-4297-83da-e86f69ef5d92",
+                        "method": "DELETE"
+                    },
+                    {
+                        "id": "80a407f7-54af-499a-b90a-f47310b4580b",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "ea027836-3cf2-464c-9de3-4f69091e7f9b",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "0e8cec15-e981-49e6-9d13-e97a9788271e",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "d30b6e7b-3f65-4d62-b5fe-db2a4b6c771c",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "c025815b-2b24-4e87-9b65-ff9d8653dc03",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "66003c4e-7be7-4193-83a5-3c9d5bb66b33",
+                        "method": "DELETE"
+                    },
+                    {
+                        "id": "a9c113fd-16b0-496b-a13b-fcf6f61a1cdb",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "7e1fced5-c683-4701-82e7-052aac3d04c9",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "9027a979-15e4-4233-b709-7a0c42ef0415",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "e966f6c8-1273-4bf9-bf6e-866432eb57d4",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "7868b6fd-38d7-4713-9a4c-1108ab7cf7af",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "1dea12b0-3c71-4362-9508-1d083fe02a67",
+                        "method": "DELETE"
+                    },
+                    {
+                        "id": "00f15982-d765-4be8-bd0c-e0a0f89da4d1",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "b84701ac-76e9-472b-8326-8ae65fac5d3c",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "51a2d83e-92f6-483b-b6ba-d9416d106860",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "63c8a294-0a2e-443a-b01e-727017dca207",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "c50add01-6d28-49f3-878f-6fd371728881",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "d078480c-f79f-4e7d-937e-b8372f3ea24c",
+                        "method": "DELETE"
+                    },
+                    {
+                        "id": "bafd1eaa-d9dd-4a38-9ee8-2e16bbc12a1b",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "2b447c5f-888c-46a7-b275-5095491da7c2",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "2263364c-a188-48d3-822d-a9833ea2ce52",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "c2dfd0b9-9e7b-4b8f-a82b-e821a5dd197c",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "ed1e4dbb-e6ea-4343-bcad-46c2ac729c25",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "da5088df-6d0c-4cb6-8aa9-3816848d7e64",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "d5933358-5fe6-4ce4-8b57-2db150c1679e",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "a270145b-7943-4a48-95e8-a2f8e6d3564a",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "ea1552d7-df1a-4f1c-b8c1-679ae20c2f3a",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "92678679-e7e3-4895-a30c-330a07adfee4",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "c1036156-b32c-479a-9ad8-c97d5048054b",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "5b9fb46a-634f-417e-a9d7-5561c59e4935",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "0db4cead-6df2-4bd6-a6d4-c8accb1717cd",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "9243e70f-eb4d-405b-aead-107329626d8e",
+                        "method": "POST"
+                    },
+                    {
+                        "id": "dccd06a2-f402-4e22-9502-9f7f9b268b83",
+                        "method": "PUT"
+                    },
+                    {
+                        "id": "da903a39-b90a-4752-9194-c721af741c75",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "8b8a777c-2353-4884-adfb-e29423a23a09",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "78c68a40-825f-4240-8700-9e02783d7337",
+                        "method": "GET"
+                    },
+                    {
+                        "id": "485d55b2-ba86-4eb4-a127-2080d0d2abc7",
+                        "method": "DELETE"
+                    }
+                ]
+            }
+        };
+
+        // Format timestamp
+        const timestamp = new Date(testData.timestamp);
+        document.getElementById('timestamp').textContent = timestamp.toLocaleString();
+
+        // Calculate success rate
+        const totalTests = testData.totalPass + testData.totalFail;
+        const successRate = ((testData.totalPass / totalTests) * 100).toFixed(2);
+        document.getElementById('successRate').textContent = successRate + '%';
+        document.getElementById('totalTests').textContent = totalTests;
+
+        // Format total time (from ms to seconds)
+        // document.getElementById('totalTime').textContent = (testData.totalTime / 1000).toFixed(2);
+        let totalTime = testData.totalTime || testData.results.reduce((sum, test) => sum + test.time, 0);
+document.getElementById('totalTime').textContent = (totalTime / 1000).toFixed(2);
+
+        // Render test results
+        const testResultsContainer = document.getElementById('test-results');
+        
+        testData.results.forEach(test => {
+            // Find the method for this test
+            const request = testData.collection.requests.find(req => req.id === test.id);
+            const method = request ? request.method : 'GET'; // Default to GET if not found
+            
+            // Determine if the test passed or failed
+            const testPassed = Object.values(test.tests).every(result => result === true);
+            
+            // Create test item element
+            const testItem = document.createElement('div');
+            testItem.className = `test-item ${testPassed ? '' : 'failed'}`;
+            testItem.dataset.status = testPassed ? 'passed' : 'failed';
+            
+            // Get response code class
+            let responseCodeClass = '';
+            if (test.responseCode.code >= 200 && test.responseCode.code < 300) {
+                responseCodeClass = 'response-code-2xx';
+            } else if (test.responseCode.code >= 400 && test.responseCode.code < 500) {
+                responseCodeClass = 'response-code-4xx';
+            } else if (test.responseCode.code >= 500) {
+                responseCodeClass = 'response-code-5xx';
+            }
+            
+            // Create test header
+            testItem.innerHTML = `
+                <div class="test-header">
+                    <div class="test-name">${test.name}</div>
+                    <div class="test-method">${method}</div>
+                </div>
+                <div class="test-url">${test.url}</div>
+                <div>
+                    <span class="test-status ${testPassed ? 'status-passed' : 'status-failed'}">
+                        ${testPassed ? 'PASSED' : 'FAILED'}
+                    </span>
+                    <span class="response-code ${responseCodeClass}">
+                        ${test.responseCode.code} ${test.responseCode.name}
+                    </span>
+                    <span class="test-time">${test.time} ms</span>
+                </div>
+                <div class="test-details">
+                    ${Object.entries(test.tests).map(([name, passed]) => `
+                        <div class="test-assertion">
+                            <div class="assertion-name">${name}</div>
+                            <div class="assertion-status ${passed ? 'passed-badge' : 'failed-badge'}">
+                                ${passed ? '✓ Passed' : '✗ Failed'}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            testResultsContainer.appendChild(testItem);
+        });
+
+        // Filter tests function
+        function filterTests(filter) {
+            const buttons = document.querySelectorAll('.filter-button');
+            buttons.forEach(button => {
+                if (button.textContent.toLowerCase().includes(filter)) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            const testItems = document.querySelectorAll('.test-item');
+            testItems.forEach(item => {
+                if (filter === 'all') {
+                    item.classList.remove('hidden');
+                } else {
+                    if (item.dataset.status !== filter) {
+                        item.classList.add('hidden');
+                    } else {
+                        item.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
